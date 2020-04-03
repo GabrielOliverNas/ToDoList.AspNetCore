@@ -37,7 +37,7 @@ namespace TodoAspNET.Controllers
         public IActionResult Index(IndexViewModel tarefa)
         {
             tarefa.TarefaToSend.Status = false;
-
+            //Adicionamos em nosso banco a tarefa que existe no VeiwModel 
             _context.Tarefas.Add(tarefa.TarefaToSend);
            
             _context.SaveChanges();
@@ -54,8 +54,11 @@ namespace TodoAspNET.Controllers
         
         public IActionResult CompletaTarefa(int IdTarefa)
         {
+            //A primeira tarefa que existir com o id encontrado é setado em tarefas e marcado como TRUE
             var tarefa = _context.Tarefas.Where(x => x.Id == IdTarefa).First();
+            //Mudando o status da tarefa
             tarefa.Status = !tarefa.Status;
+            //Salvando as configurações no banco
             _context.SaveChanges();
 
             var tarefas = _context.Tarefas.ToList();
