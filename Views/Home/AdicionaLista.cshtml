@@ -1,0 +1,29 @@
+@model TodoAspNET.ViewModels.IndexViewModel
+
+@section CSS
+{
+    <link rel="stylesheet" href="~/css/todo.css" />
+}
+
+<div id= "container">
+	<h1>To-Do Lists - funcionalidades<span id="toggle-form"><i class="fas fa-plus"></i></span></h1>
+	
+	<form asp-action="AdicionaLista" method="POST">
+		<input asp-for="TarefaAdd.Descricao" maxlength="25" placeholder="Digite aqui novas funcionalidades" />
+	</form>
+
+    <ul>
+		@foreach (var item in Model.AdicionarTarefa)
+		{
+			<li>
+				<a asp-action="DeletaTarefa" asp-route-idtarefa="@item.Id">
+					<span><i class="fas fa-trash"></i></span>
+				</a>
+				<a asp-action="CompletaTarefa" asp-route-idtarefa="@item.Id">
+					<i class="fas fa-check check @(item.Status == true ? "checked" : "")"></i>
+				</a>
+				
+			</li>
+		}
+	</ul>
+</div>

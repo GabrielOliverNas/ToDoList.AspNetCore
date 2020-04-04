@@ -39,6 +39,8 @@ namespace TodoAspNET.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "NovasTarefas");
+            migrationBuilder.DropTable(
                 name: "Listas");
 
             migrationBuilder.DropTable(

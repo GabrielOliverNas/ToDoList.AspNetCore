@@ -14,20 +14,23 @@
 	<form asp-action="Index" method="POST">
 		<input asp-for="TarefaToSend.Descricao" maxlength="25" placeholder="Digite aqui" />
 	</form>
-	
-	<ul>
-		@foreach (var item in Model.Tarefas)
-		{
-			<li>
-				<a asp-action="DeletaTarefa" asp-route-idtarefa="@item.Id">
-					<span><i class="fas fa-trash"></i></span>
-				</a>
-				@item.Descricao
-				<a asp-action="CompletaTarefa" asp-route-idtarefa="@item.Id">
+
+	@if(Model.Tarefas.Count() != 0)
+	{
+		<ul>
+			@foreach (var item in Model.Tarefas)
+			{
+				<li>
+					<a asp-action="DeletaTarefa" asp-route-idtarefa="@item.Id">
+						<span><i class="fas fa-trash"></i></span>
+					</a>
+					<a asp-action="AdicionaLista">@item.Descricao</a>
+					<a asp-action="CompletaTarefa" asp-route-idtarefa="@item.Id">
 					<i class="fas fa-check check @(item.Status == true ? "checked" : "")"></i>
-				</a>
-			</li>
-		}
-	</ul>
+					</a>
+				</li>
+			}
+		</ul>	
+	}
 </div>
 

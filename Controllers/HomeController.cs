@@ -15,7 +15,7 @@ namespace TodoAspNET.Controllers
     {
 
         private readonly ApplicationDbContext _context;
-        
+
         public HomeController(ApplicationDbContext context)
         {
             _context = context;
@@ -25,33 +25,60 @@ namespace TodoAspNET.Controllers
         public IActionResult Index()
         {
             var tarefas = _context.Tarefas.ToList();
-            
-            var listaTarefas = new IndexViewModel(){
+
+            var listaTarefas = new IndexViewModel()
+            {
                 Tarefas = tarefas
             };
 
             return View(listaTarefas);
         }
-        
+
         [HttpPost]
         public IActionResult Index(IndexViewModel tarefa)
         {
             tarefa.TarefaToSend.Status = false;
             //Adicionamos em nosso banco a tarefa que existe no VeiwModel 
             _context.Tarefas.Add(tarefa.TarefaToSend);
-           
+
             _context.SaveChanges();
-            
+
             var tarefas = _context.Tarefas.ToList();
-            
-            var listaTarefas = new IndexViewModel(){
+
+            var listaTarefas = new IndexViewModel()
+            {
                 Tarefas = tarefas
             };
 
-            return View(listaTarefas);            
+            return View(listaTarefas);
 
         }
-        
+        public IActionResult AdicionaLista()
+        {
+            var tarefas = _context.Tarefas.ToList();
+
+            var listaTarefas = new IndexViewModel()
+            {
+                AdicionarTarefa = tarefas
+            };
+
+            return View(listaTarefas);
+        }
+
+        [HttpPost]
+        public IActionResult AdicionaLista(Tarefa IdTarefa)
+        {
+            var tarefa = _context.Tarefas.Where(x => x.Id == IdTarefa.Id).First();
+           
+           var nomeTarefa = new List<Tarefa>();
+
+            var listaTarefas = new IndexViewModel()
+            {
+                AdicionarTarefa = nomeTarefa
+
+            };
+            return View(listaTarefas);
+        }
         public IActionResult CompletaTarefa(int IdTarefa)
         {
             //A primeira tarefa que existir com o id encontrado é setado em tarefas e marcado como TRUE
@@ -62,7 +89,8 @@ namespace TodoAspNET.Controllers
             _context.SaveChanges();
 
             var tarefas = _context.Tarefas.ToList();
-            var listaTarefas = new IndexViewModel(){
+            var listaTarefas = new IndexViewModel()
+            {
                 Tarefas = tarefas
             };
 
@@ -76,13 +104,13 @@ namespace TodoAspNET.Controllers
             _context.SaveChanges();
 
             var tarefas = _context.Tarefas.ToList();
-            var listaTarefas = new IndexViewModel(){
+            var listaTarefas = new IndexViewModel()
+            {
                 Tarefas = tarefas
             };
 
             return View("Index", listaTarefas);
         }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
